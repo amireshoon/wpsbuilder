@@ -2,7 +2,10 @@
 
 if (!class_exists('wpsRender')) {
     class wpsRender {
+        
         protected $builder = null;
+        protected $inputs = array();
+
         public function __construct($builder) {
             $this->builder = $builder;
             if ($this->builder->isSubMenu()) {
@@ -36,8 +39,34 @@ if (!class_exists('wpsRender')) {
         }
 
         public function menu_content(){
-            esc_html_e( 'Admin Page Test', 'textdomain' );  
+            $this->render_form(null);
+        }
+        
+        private function render_form($inputs) {
+            echo '<div class="wrap">'; // Content wrapper
+
+            echo '<h1>'.$this->builder->getPageTitle().'</h1>'; // Page title
+
+            if (!empty($this->builder->getPageDescription()))
+                echo '<p>'.$this->builder->getPageDescription().'</p>'; // Page desc if available
+            
+            $this->status(); // Page errors or success
+
+            echo '<form method="'.$this->builder->getFormMethod().'" action="options.php">'; // Begin form 
+
+            submit_button();    // Submit button
+
+            echo'</form></div>'; // End of form
         }
 
+        private function status() {
+            if ($_POST['status'] == true) {
+                echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
+                <p><strong>تنظیمات ذخیره شد.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">رد کردن این اخطار</span></button></div>';
+            }else {
+                echo '<div id="setting-error-invalid_siteurl" class="notice notice-error settings-error is-dismissible"> 
+                <p><strong>گویا نشانی وردپرسی که وارد کردید معتبر نیست، لطفاً یک نشانی معتبر وارد کنید.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">رد کردن این اخطار</span></button></div>';
+            }
+        }
     }
 }

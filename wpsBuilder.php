@@ -39,6 +39,16 @@ if (!class_exists('wpsBuilder')) {
             return $this;
         }
 
+        public function setPageDescription($desc) {
+            $this->config['page_desc'] = $desc;
+            return $this;
+        }
+
+        public function setFormMethod($method) {
+            $this->config['form_method'] = $method;
+            return $this;
+        }
+
         /**
          * The capability required for this menu to be displayed to the user.
          * 
@@ -106,6 +116,19 @@ if (!class_exists('wpsBuilder')) {
         public function getSubMenuSlug() {
             if(!empty($this->config['submenu_menu_slug']))
                 return $this->config['submenu_menu_slug'];
+        }
+
+        public function getPageDescription() {
+            if(!empty($this->config['page_desc']))
+                return $this->config['page_desc'];
+        }
+
+        public function getFormMethod() {
+            if(!empty($this->config['form_method'])) {
+                return $this->config['form_method'];
+            }else {
+                return 'post';
+            }
         }
 
         public function build() {
