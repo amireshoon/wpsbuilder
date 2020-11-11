@@ -16,6 +16,7 @@ if (!class_exists('wpsBuilder')) {
         
         protected $isSubMenu = false;
         protected $config = array();
+        protected $fields = array();
 
         public function __construct() {
             return $this;
@@ -115,6 +116,11 @@ if (!class_exists('wpsBuilder')) {
             return $this;
         }
 
+        /**
+         * Set position for menu.
+         * 
+         * @var     int position
+         */
         public function setPosition($position) {
             $this->config['position'] = $position;
             return $this;
@@ -177,6 +183,72 @@ if (!class_exists('wpsBuilder')) {
             }
         }
 
+        public function input($id, $placeholder, $settings = array(), $content = '') {
+            $this->fields['input'][] = [
+                'field_id'            =>  $id,
+                'field_placeholder'   => $placeholder,
+                'field_content'       => $content,
+                'field_settings'      => $settings
+            ];
+            return $this;
+        }
+
+        public function textArea($id, $placeholder, $settings = array(), $content = '') {
+            $this->fields['textArea'][] = [
+                'field_id'            =>  $id,
+                'field_placeholder'   => $placeholder,
+                'field_content'       => $content,
+                'field_settings'      => $settings
+            ];
+            return $this;
+        }
+
+        public function select($id, $options, $selected = '') {
+            $this->fields['select'][] = [
+                'field_id'            =>  $id,
+                'field_options'   => $options,
+                'selected_field'       => $selected
+            ];
+            return $this;
+        }
+
+        public function radio($id, $radios, $selected = '') {
+            $this->fields['radio'][] = [
+                'field_id'            =>  $id,
+                'field_options'   => $radios,
+                'selected_field'       => $selected
+            ];
+            return $this;
+        }
+
+        public function checkbox($id, $title, $desc, $checked = false) {
+            $this->fields['checkbox'][] = [
+                'field_id'      =>  $id,
+                'field_title'   => $title,
+                'field_desc'    => $desc,
+                'checked'       => $checked
+            ];
+            return $this;
+        }
+
+        public function media($id) {
+            $this->fields['media'][] = [
+                'field_id'      =>  $id
+            ];
+            return $this;
+        }
+
+        public function text($id, $content) {
+            $this->fields['text'][] = [
+                'field_id'      =>  $id,
+                'content'       =>  $content
+            ];
+            return $this;
+        }
+
+        public function getFields() {
+            return $this->fields;
+        }
         /**
          * This function will render values.
          * 
