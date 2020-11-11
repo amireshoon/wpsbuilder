@@ -106,6 +106,9 @@ if (!class_exists('wpsRender')) {
                 case 'text':
                     $this->createTextField($field);
                     break;
+                case 'checkbox':
+                    $this->createCheckBox($field);
+                    break;
                 default:
                     
                     break;
@@ -131,6 +134,25 @@ if (!class_exists('wpsRender')) {
         private function createTextField($att) {
             echo '<th scope="row"><label for="'.$att['field_id'].'">'.$att['title'].'</label></th>';
             echo '<td><p name="'.$att['field_id'].'" id="'.$att['field_id'].'" class="large-text code" rows="3">'.$att['content'].'</p></td>';
+        }
+
+        private function createCheckBox($att) {
+            
+            if ($att['checked']) {
+                $checked = 0;
+                $checked2 = 'checked';
+            }else {
+                $checked = 1;
+                $checked2 = '';
+            }
+            echo '<th scope="row">'.$att['field_title'].'</th>';
+            echo '<td>
+            <fieldset>
+            <legend class="screen-reader-text"><span>'.$att['field_title'].'</span></legend><label for="'.$att['field_id'].'">
+            <input name="'.$att['field_id'].'" type="checkbox" id="'.$att['field_id'].'" value="'.$checked.'" '.$checked2.'>
+             '.$att['field_desc'].'</label>
+            </fieldset>
+            </td>';
         }
 
         private function createHiddenInput($fields) {
