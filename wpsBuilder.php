@@ -1,7 +1,11 @@
 <?php
 
 if (!class_exists('wpsBuilder')) {
+    require_once('src/render.php');
+
     class wpsBuilder {
+        
+        protected $isSubMenu = false;
         
         public function __construct() {
             
@@ -12,11 +16,13 @@ if (!class_exists('wpsBuilder')) {
         }
 
         public function attachToMenu($parentSlug) {
-
+            $this->isSubMenu = true;
+            return $this;
         }
 
         public function addMenu($slug) {
-
+            $this->isSubMenu = false;
+            return $this;
         }
 
         public function setMenuTitle($menuTitle) {
@@ -45,8 +51,12 @@ if (!class_exists('wpsBuilder')) {
 
         }
 
+        public function isSubMenu() : bool {
+            return $this->isSubMenu;
+        }
+
         public function build() {
-            
+            $render = new wpsRender($this);
         }
     }
 }
