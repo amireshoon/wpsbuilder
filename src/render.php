@@ -64,6 +64,7 @@ if (!class_exists('wpsRender')) {
             $this->status(); // Page errors or success
 
             echo '<form method="'.$this->builder->getFormMethod().'" action="admin.php?page='.$this->formSlug.'&option=save">'; // Begin form 
+            $this->createHiddenInput($this->builder->getFields()['hidden']);
             echo '<table class="form-table" role="presentation"><tbody>';
             $this->proccessFields();
             echo '</tbody></table>';
@@ -83,8 +84,11 @@ if (!class_exists('wpsRender')) {
 
         private function proccessFields() {
             $fieldsGroup = $this->builder->getFields();
+            if (!empty($fieldsGroup['hidden']))
+                unset($fieldsGroup['hidden']);
+
             foreach ($fieldsGroup as $key => $field) {
-                for ($i=0; $i < sizeof($field); $i++) { 
+                for ($i=0; $i <= sizeof($field) -1; $i++) {
                     $this->detectFieldType($key, $field[$i]);
                 }
             }
@@ -92,8 +96,19 @@ if (!class_exists('wpsRender')) {
 
         private function detectFieldType($key, $field) {
             echo '<tr>';
-            if ($key == 'input') {
-                $this->createInput($field);
+            switch ($key) {
+                case 'input':
+                    $this->createInput($field);
+                    break;
+                case 'textArea':
+                    $this->createTextArea($field);
+                    break;
+                case 'text':
+                    $this->createTextField($field);
+                    break;
+                default:
+                    
+                    break;
             }
             echo '</tr>';
         }
@@ -106,6 +121,22 @@ if (!class_exists('wpsRender')) {
             echo '<td>
             <input name="'.$att['field_id'].'" '.$settings.' placeholder="'.$att['field_placeholder'].'" id="'.$att['field_id'].'" value="'.$att['field_content'].'" class="regular-text">
             </td>';
+        }
+
+        private function createTextArea($att) {
+            echo '<th scope="row"><label for="'.$att['field_id'].'">'.$att['field_placeholder'].'</label></th>';
+            echo '<td><textarea name="'.$att['field_id'].'" id="'.$att['field_id'].'" class="large-text code" rows="3">'.$att['content'].'</textarea></td>';
+        }
+
+        private function createTextField($att) {
+            echo '<th scope="row"><label for="'.$att['field_id'].'">'.$att['title'].'</label></th>';
+            echo '<td><p name="'.$att['field_id'].'" id="'.$att['field_id'].'" class="large-text code" rows="3">'.$att['content'].'</p></td>';
+        }
+
+        private function createHiddenInput($fields) {
+            foreach ($fields as $field) {
+                echo '<input name="'.$field['field_id'].'" type="hidden" value="'.$field['field_value'].'"/>';
+            }
         }
     }
 }

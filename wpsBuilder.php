@@ -193,6 +193,14 @@ if (!class_exists('wpsBuilder')) {
             return $this;
         }
 
+        public function hiddenInput($id, $value) {
+            $this->fields['hidden'][] = [
+                'field_id'            =>  $id,
+                'field_value'   => $value
+            ];
+            return $this;
+        }
+
         public function textArea($id, $placeholder, $settings = array(), $content = '') {
             $this->fields['textArea'][] = [
                 'field_id'            =>  $id,
@@ -238,9 +246,10 @@ if (!class_exists('wpsBuilder')) {
             return $this;
         }
 
-        public function text($id, $content) {
+        public function text($id, $title, $content) {
             $this->fields['text'][] = [
                 'field_id'      =>  $id,
+                'title'         =>  $title,
                 'content'       =>  $content
             ];
             return $this;
