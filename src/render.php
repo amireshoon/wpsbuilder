@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Renderer class for wpsBuilder
+ * 
+ * @package wpsRender
+ * @author  Amirhossein Meydani
+ * @version 1.0.0
+ */
+
 if (!class_exists('wpsRender')) {
     class wpsRender {
         

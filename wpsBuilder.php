@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Wordpress settings page Builder
+ * 
+ * @author  Amirhossein Meydani
+ * @version 1.0.0
+ * @license GPL2
+ * @package wpsBuilder
+ */
+
 if (!class_exists('wpsBuilder')) {
     require_once('src/render.php');
 
@@ -9,41 +18,78 @@ if (!class_exists('wpsBuilder')) {
         protected $config = array();
 
         public function __construct() {
-            
+            return $this;
         }
 
+        /**
+         * Page title used for create menu/submenu.
+         * 
+         * @var     string  page title
+         */
         public function setPageTitle($pageTitle) {
             $this->config['page_title'] = $pageTitle;
             return $this;
         }
 
+        /**
+         * Attach setting menu to another menu as submenu.
+         * 
+         * @var     string  parent menu slug
+         */
         public function attachToMenu($parentSlug) {
             $this->isSubMenu = true;
             $this->config['parent_slug'] = $parentSlug;
             return $this;
         }
 
+        /**
+         * Creates menu for setting page.
+         * 
+         * @var     string  menu slug
+         */
         public function addMenu($slug) {
             $this->isSubMenu = false;
             $this->config['menu_slug'] = $slug;
             return $this;
         }
 
+        /**
+         * Set menu slug for submenu.
+         * 
+         * @var     string  menu slug
+         */
         public function setMenuSlug($slug) {
             $this->config['submenu_menu_slug'] = $slug;
             return $this;
         }
 
+        /**
+         * Set menu title for menu/submenu.
+         * 
+         * @var     string  menu title
+         */
         public function setMenuTitle($menuTitle) {
             $this->config['menu_title'] = $menuTitle;
             return $this;
         }
 
+        /**
+         * Set page description for menu/submenu.
+         * This text will place after title and in <p> tag.
+         * 
+         * @var     string  description
+         */
         public function setPageDescription($desc) {
             $this->config['page_desc'] = $desc;
             return $this;
         }
 
+        /**
+         * Configure form method for setting.
+         * Default is post.
+         * 
+         * @var     string  method
+         */
         public function setFormMethod($method) {
             $this->config['form_method'] = $method;
             return $this;
@@ -131,6 +177,11 @@ if (!class_exists('wpsBuilder')) {
             }
         }
 
+        /**
+         * This function will render values.
+         * 
+         * @subpackage  wpsRender
+         */
         public function build() {
             $render = new wpsRender($this);
         }
