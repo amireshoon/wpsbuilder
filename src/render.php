@@ -109,6 +109,9 @@ if (!class_exists('wpsRender')) {
                 case 'checkbox':
                     $this->createCheckBox($field);
                     break;
+                case 'radio':
+                    $this->createRadio($field);
+                    break;
                 default:
                     
                     break;
@@ -137,7 +140,6 @@ if (!class_exists('wpsRender')) {
         }
 
         private function createCheckBox($att) {
-            
             if ($att['checked']) {
                 $checked = 0;
                 $checked2 = 'checked';
@@ -153,6 +155,21 @@ if (!class_exists('wpsRender')) {
              '.$att['field_desc'].'</label>
             </fieldset>
             </td>';
+        }
+
+        private function createRadio($att) {
+            echo '<th scope="row">'.$att['title'].'</th>';
+            echo '<td><fieldset>';
+            foreach ($att['field_options'] as $key => $value) {
+                echo '
+                <label>
+                <input type="radio" name="'.$att['field_id'].'" value="'.$value.'">
+                 <span class="date-time-text format-i18n">'.$value.'</span>
+                 </label>
+                ';
+                echo '</br>';
+            }
+            echo '</fieldset></td>';
         }
 
         private function createHiddenInput($fields) {

@@ -220,9 +220,10 @@ if (!class_exists('wpsBuilder')) {
             return $this;
         }
 
-        public function radio($id, $radios, $selected = '') {
+        public function radio($id, $radios,$title, $selected = '') {
             $this->fields['radio'][] = [
                 'field_id'            =>  $id,
+                'field_title'       => $title,
                 'field_options'   => $radios,
                 'selected_field'       => $selected
             ];
