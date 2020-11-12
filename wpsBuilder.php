@@ -241,9 +241,10 @@ if (!class_exists('wpsBuilder')) {
             return $this;
         }
 
-        public function media($id) {
+        public function media($id, $title) {
             $this->fields['media'][] = [
-                'field_id'      =>  $id
+                'field_id'      =>  $id,
+                'title'         =>  $title
             ];
             return $this;
         }

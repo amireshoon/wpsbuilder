@@ -17,6 +17,7 @@ if (!class_exists('wpsRender')) {
 
         public function __construct($builder) {
             $this->builder = $builder;
+            add_action( 'admin_enqueue_scripts', array($this, 'load_render_js') );
             if ($this->builder->isSubMenu()) {
                 add_action( 'admin_menu', array($this, 'createSubMenu') );
                 $this->formSlug = $this->builder->getSubMenuSlug();
@@ -115,6 +116,9 @@ if (!class_exists('wpsRender')) {
                 case 'select':
                     $this->createSelectBox($field);
                     break;
+                case 'media':
+                    $this->media($field);
+                    break;
                 default:
                     
                     break;
@@ -182,6 +186,32 @@ if (!class_exists('wpsRender')) {
                 echo '<option value="'.$value.'">'.$value.'</option>';
             }
             echo '</select></td>';
+        }
+
+        private function media($att) {
+            echo '
+            <th scope="row">'.$att['title'].'</th><td>';
+            // Save attachment ID
+            if ( isset( $_POST['submit_image_selector'] ) && isset( $_POST['image_attachment_id'] ) ) :
+                update_option( 'media_selector_attachment_id', absint( $_POST['image_attachment_id'] ) );
+            endif;
+            wp_enqueue_media();
+            ?><form method='post'>
+            <div class='image-preview-wrapper'>
+                <img id='image-preview' src='<?php echo wp_get_attachment_url( get_option( 'media_selector_attachment_id' ) ); ?>' height='100'>
+            </div>
+            <input id="upload_image_button" type="button" class="button" value="<?php echo 'انتخاب عکس' ?>" />
+            <input type='hidden' name='image_attachment_id' id='image_attachment_id' value='<?php echo get_option( 'media_selector_attachment_id' ); ?>'>
+            <input name="submit_image_selector" value="Save" class="button-primary" type="hidden">
+            </form><?php
+            echo '</td>';
+        
+        }
+
+        
+        public function load_render_js() {
+            wp_enqueue_media();
+            wp_enqueue_script( 'myprefix_script', plugins_url( '/js/wpsBuilder.js' , __FILE__ ), array('jquery'), '0.1' );
         }
 
         private function createHiddenInput($fields) {
