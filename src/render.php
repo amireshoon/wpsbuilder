@@ -112,6 +112,9 @@ if (!class_exists('wpsRender')) {
                 case 'radio':
                     $this->createRadio($field);
                     break;
+                case 'select':
+                    $this->createSelectBox($field);
+                    break;
                 default:
                     
                     break;
@@ -164,12 +167,21 @@ if (!class_exists('wpsRender')) {
                 echo '
                 <label>
                 <input type="radio" name="'.$att['field_id'].'" value="'.$value.'">
-                 <span class="date-time-text format-i18n">'.$value.'</span>
+                 <span>'.$value.'</span>
                  </label>
                 ';
                 echo '</br>';
             }
             echo '</fieldset></td>';
+        }
+
+        private function createSelectBox($att) {
+            echo '<th scope="row">'.$att['title'].'</th>';
+            echo '<td><select name="'.$att['field_id'].'">';
+            foreach ($att['field_options'] as $key => $value) {
+                echo '<option value="'.$value.'">'.$value.'</option>';
+            }
+            echo '</select></td>';
         }
 
         private function createHiddenInput($fields) {

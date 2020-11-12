@@ -211,10 +211,11 @@ if (!class_exists('wpsBuilder')) {
             return $this;
         }
 
-        public function select($id, $options, $selected = '') {
+        public function select($id, $options,$title, $selected = '') {
             $this->fields['select'][] = [
                 'field_id'            =>  $id,
                 'field_options'   => $options,
+                'title' => $title,
                 'selected_field'       => $selected
             ];
             return $this;
