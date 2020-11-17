@@ -14,7 +14,7 @@ if (!class_exists('wpsRender')) {
         protected $builder = null;
         protected $inputs = array();
         protected $formSlug = '';
-        protected $status = null;
+        protected $status = array();
 
         public function __construct($builder) {
             $this->builder = $builder;
@@ -220,14 +220,14 @@ if (!class_exists('wpsRender')) {
         }
 
         private function get_status() {
-            if (is_null($this->status))
+            if (is_null($this->status[1]))
                 return 0;
-            if ($this->status) {
+            if ($this->status[1]) {
                 echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
-                <p><strong>تنظیمات ذخیره شد.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">رد کردن این اخطار</span></button></div>';
-            }else if (!$this->status){
+                <p><strong>'.$this->status[0].'</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">رد کردن این اخطار</span></button></div>';
+            }else if (!$this->status[1]){
                 echo '<div id="setting-error-invalid_siteurl" class="notice notice-error settings-error is-dismissible"> 
-                <p><strong>گویا نشانی وردپرسی که وارد کردید معتبر نیست، لطفاً یک نشانی معتبر وارد کنید.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">رد کردن این اخطار</span></button></div>';
+                <p><strong>'.$this->status[0].'</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">رد کردن این اخطار</span></button></div>';
             }
         }
 

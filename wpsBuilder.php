@@ -271,6 +271,11 @@ if (!class_exists('wpsBuilder')) {
             $this->render = new wpsRender($this);
         }
 
+        /**
+         * This function handle submit response.
+         * 
+         * @var function
+         */
         public function response($func) {
             $this->render->response($func);
         }
