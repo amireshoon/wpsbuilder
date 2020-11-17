@@ -14,6 +14,7 @@ if (!class_exists('wpsRender')) {
         protected $builder = null;
         protected $inputs = array();
         protected $formSlug = '';
+        protected $status = null;
 
         public function __construct($builder) {
             $this->builder = $builder;
@@ -78,8 +79,7 @@ if (!class_exists('wpsRender')) {
                 echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
                 <p><strong>تنظیمات ذخیره شد.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">رد کردن این اخطار</span></button></div>';
             }else {
-                echo '<div id="setting-error-invalid_siteurl" class="notice notice-error settings-error is-dismissible"> 
-                <p><strong>گویا نشانی وردپرسی که وارد کردید معتبر نیست، لطفاً یک نشانی معتبر وارد کنید.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">رد کردن این اخطار</span></button></div>';
+                $this->get_status();
             }
         }
 
@@ -207,8 +207,7 @@ if (!class_exists('wpsRender')) {
             echo '</td>';
         
         }
-
-        
+       
         public function load_render_js() {
             wp_enqueue_media();
             wp_enqueue_script( 'myprefix_script', plugins_url( '/js/wpsBuilder.js' , __FILE__ ), array('jquery'), '0.1' );
@@ -217,6 +216,26 @@ if (!class_exists('wpsRender')) {
         private function createHiddenInput($fields) {
             foreach ($fields as $field) {
                 echo '<input name="'.$field['field_id'].'" type="hidden" value="'.$field['field_value'].'"/>';
+            }
+        }
+
+        private function get_status() {
+            if (is_null($this->status))
+                return 0;
+            if ($this->status) {
+                echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
+                <p><strong>تنظیمات ذخیره شد.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">رد کردن این اخطار</span></button></div>';
+            }else if (!$this->status){
+                echo '<div id="setting-error-invalid_siteurl" class="notice notice-error settings-error is-dismissible"> 
+                <p><strong>گویا نشانی وردپرسی که وارد کردید معتبر نیست، لطفاً یک نشانی معتبر وارد کنید.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">رد کردن این اخطار</span></button></div>';
+            }
+        }
+
+        public function response($func) {
+            if ($this->builder->getFormMethod() == 'get') {
+                $this->status = $func($_GET);
+            }else {
+                $this->status = $func($_POST);
             }
         }
     }

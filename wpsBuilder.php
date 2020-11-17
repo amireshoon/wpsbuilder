@@ -17,6 +17,7 @@ if (!class_exists('wpsBuilder')) {
         protected $isSubMenu = false;
         protected $config = array();
         protected $fields = array();
+        protected $render = null;
 
         public function __construct() {
             return $this;
@@ -267,7 +268,11 @@ if (!class_exists('wpsBuilder')) {
          * @subpackage  wpsRender
          */
         public function build() {
-            $render = new wpsRender($this);
+            $this->render = new wpsRender($this);
+        }
+
+        public function response($func) {
+            $this->render->response($func);
         }
     }
 }
