@@ -9,6 +9,8 @@
  * @package wpsBuilder
  */
 
+namespace wpsBuilder;
+
 if (!class_exists('wpsBuilder')) {
     require_once('src/render.php');
 

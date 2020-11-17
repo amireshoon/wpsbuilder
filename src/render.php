@@ -231,6 +231,14 @@ if (!class_exists('wpsRender')) {
             }
         }
 
+        /**
+         * Used to handle response for user.
+         * 
+         * Function that passed should return an array contain 
+         * the result message and failed or success status.
+         * 
+         * @var function
+         */
         public function response($func) {
             if ($this->builder->getFormMethod() == 'get') {
                 $this->status = $func($_GET);
