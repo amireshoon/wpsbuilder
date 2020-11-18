@@ -66,7 +66,8 @@ if (!class_exists('wpsRender')) {
             $this->status(); // Page errors or success
 
             echo '<form method="'.$this->builder->getFormMethod().'" action="admin.php?page='.$this->formSlug.'&option=save">'; // Begin form 
-            $this->createHiddenInput($this->builder->getFields()['hidden']);
+            if (!empty($this->builder->getFields()['hidden']))
+                $this->createHiddenInput($this->builder->getFields()['hidden']);
             echo '<table class="form-table" role="presentation"><tbody>';
             $this->proccessFields();
             echo '</tbody></table>';
