@@ -100,7 +100,6 @@ $builder->response(function($res) {
  - Add more inputs
 
 # License
-----
 GPL2
 
 **Free Software, Hell Yeah!**
