@@ -76,11 +76,13 @@ if (!class_exists('wpsRender')) {
         }
 
         private function status() {
-            if ($_POST['status'] == true) {
-                echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
-                <p><strong>تنظیمات ذخیره شد.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">رد کردن این اخطار</span></button></div>';
-            }else {
-                $this->get_status();
+            if (isset($_POST['status'])) {
+                if ($_POST['status'] == true) {
+                    echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
+                    <p><strong>تنظیمات ذخیره شد.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">رد کردن این اخطار</span></button></div>';
+                }else {
+                    $this->get_status();
+                }
             }
         }
 
@@ -129,8 +131,10 @@ if (!class_exists('wpsRender')) {
 
         private function createInput($att) {
             echo '<th scope="row"><label for="'.$att['field_id'].'">'.$att['field_placeholder'].'</label></th>';
+            $settings = '';
             foreach ($att['field_settings'] as $setting) {
-                $settings .= ' '.$setting['key'].'="'.$setting['value'].'" ';
+                if (isset($setting))
+                    $settings .= ' '.$setting['key'].'="'.$setting['value'].'" ';
             }
             echo '<td>
             <input name="'.$att['field_id'].'" '.$settings.' placeholder="'.$att['field_placeholder'].'" id="'.$att['field_id'].'" value="'.$att['field_content'].'" class="regular-text">
