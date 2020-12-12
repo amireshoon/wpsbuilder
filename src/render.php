@@ -76,14 +76,7 @@ if (!class_exists('wpsRender')) {
         }
 
         private function status() {
-            if (isset($_POST['status'])) {
-                if ($_POST['status'] == true) {
-                    echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
-                    <p><strong>تنظیمات ذخیره شد.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">رد کردن این اخطار</span></button></div>';
-                }else {
-                    $this->get_status();
-                }
-            }
+            $this->get_status();
         }
 
         private function proccessFields() {
